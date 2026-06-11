@@ -1,5 +1,13 @@
-# لعبة حرب الممالك - نسخة تعمل كخدمة مستقلة
-# DEV @TVXSSS
+import subprocess
+import sys
+
+# ===== حل مشكلة imghdr في Python 3.14 =====
+try:
+    import imghdr
+except ImportError:
+    subprocess.run([sys.executable, "-m", "pip", "install", "imghdr-lts", "--quiet"])
+    import imghdr  # المحاولة مرة أخرى
+# =========================================
 
 import os
 import time
@@ -226,7 +234,6 @@ class AvetaarUltimateInterface:
         self.token = token
         self.db = AvetaarUltimateDatabase()
         self.engine = AvetaarUltimateEngine(self.db)
-        # حذف أي webhook عالق لضمان عمل polling
         try:
             requests.get(f"https://api.telegram.org/bot{token}/deleteWebhook", timeout=5)
         except:
@@ -519,7 +526,6 @@ class AvetaarUltimateInterface:
 
 if __name__ == "__main__":
     print("🚀 جاري تشغيل بوت حرب الممالك...")
-    # حذف webhook قبل بدء التشغيل
     try:
         requests.get(f"https://api.telegram.org/bot{avetaar_token}/deleteWebhook", timeout=5)
     except:
